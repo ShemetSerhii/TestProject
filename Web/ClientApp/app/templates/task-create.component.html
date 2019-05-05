@@ -1,0 +1,8 @@
+﻿<div>
+    <h2>Adding a new task</h2>
+    <task-form [(task)]="task"></task-form>
+    <div class="form-group">
+        <input type="button" value="Save" (click)="save()" class="btn btn-success" />
+        <a routerLink="/" class="btn btn-warning">Cancel</a>
+    </div>
+</div>

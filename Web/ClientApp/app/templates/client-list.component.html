@@ -1,0 +1,64 @@
+﻿<div class="tables">
+    <div class="tables-item m-2">   
+        <div class="tables">
+            <div class="tables-item">
+                <input [(ngModel)]="firstName" placeholder="First Name" (keyup)="onKey()">
+            </div>
+            <div class="tables-item">
+                <label>Cities: </label>
+                <select (change)="onFilter($event.target.value)">
+                    <option value="0">--All--</option>
+                    <option *ngFor="let city of cities" value={{city}}>
+                        {{city}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Address</td>
+                <td>Phone numbers</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let c of clients" (click)="showTasks(c.id)" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
+                <td>{{c?.firstName}}</td>
+                <td>{{c?.lastName}}</td>
+                <td>{{c?.address}}</td>
+                <td>{{c?.phoneNumbers}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tables-item m-2" *ngIf="taskStatus">
+        <a [routerLink]="['create', id]" class="btn btn-sm btn-success">Add task</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <td>Task Name</td>
+                <td>Description</td>
+                <td>Client Address</td>
+                <td>Start time</td>
+                <td>End time</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let t of tasks">
+                <td>{{t?.name}}</td>
+                <td>{{t?.description}}</td>
+                <td>{{t?.clientAddress}}</td>
+                <td>{{t?.startTime}}</td>
+                <td>{{t?.endTime}}</td>
+                <td>
+                    <a [routerLink]="['edit', t.id]" class="btn btn-sm btn-primary">Edit</a>
+                    <button (click)="delete(t.id)" class="btn btn-sm btn-danger">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
