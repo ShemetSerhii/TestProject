@@ -32,23 +32,36 @@ namespace Web.Controllers
         [HttpPost("{id}")]
         public async Task<IActionResult> CreateTask(int id, [FromBody] TaskModel taskModel)
         {
-            var task = _mappingService.Map<TaskModel, ClientTask>(taskModel);
+            if (ModelState.IsValid)
+            {
+                var task = _mappingService.Map<TaskModel, ClientTask>(taskModel);
 
-            task.ClientId = id;
+                task.ClientId = id;
 
-            await _taskService.CreateAsync(task);
+                await _taskService.CreateAsync(task);
 
-            return Ok();
+                return Ok();
+            }
+
+            return BadRequest(taskModel);
+
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateTask(int id, [FromBody] TaskModel taskModel)
+        public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskModel taskModel)
         {
-            var task = await _taskService.GetAsync(id);
+            if (ModelState.IsValid)
+            {
+                var task = await _taskService.GetAsync(id);
 
-            _mappingService.Map(taskModel, task);
+                _mappingService.Map(taskModel, task);
 
-            await _taskService.UpdateAsync(task);
+                await _taskService.UpdateAsync(task);
+
+                return Ok();
+            }
+
+            return BadRequest(taskModel);
         }
 
         [HttpDelete("{id}")]
